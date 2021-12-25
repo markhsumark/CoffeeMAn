@@ -19,9 +19,9 @@ class IGViewModel : ObservableObject{
                         let decoder = JSONDecoder()
                         decoder.dateDecodingStrategy = .iso8601
                         let searchResponse = try decoder.decode(IGAccountItem.self, from: data)
-                        DispatchQueue.main.async {
-                            self.igAccountItems = searchResponse
-                        }
+//                        DispatchQueue.main.async {
+//                            self.igAccountItems = searchResponse
+//                        }
                     }
                     catch{
                         print(error)

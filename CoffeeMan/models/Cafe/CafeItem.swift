@@ -20,4 +20,6 @@ struct CafeItem: Codable{
     let address: String
     let open_time : String
     let mrt : String
+    let latitude : String
+    let longitude : String
 }
