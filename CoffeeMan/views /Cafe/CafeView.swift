@@ -7,38 +7,60 @@
 
 import SwiftUI
 
+struct FilterItem{
+    var evaluation : Float
+    var price : Float
+}
+
 struct CafeView: View {
     
     @StateObject var Cafe = CafeViewModel()
     @State private var city : String = ""
-    @State private var keywordToSearch = ""
-    @State private var blockOrMapView : Bool = true
+    @State private var searchText = ""
+    @State private var blockOrMapView : Bool = false
+    @State private var filterItem : FilterItem = FilterItem(evaluation: 0.0, price: 0.0)
     var filtedCafes : [CafeItem]{
-        if keywordToSearch.isEmpty{
-            return Cafe.cafeItems
+        var fCafe : [CafeItem]{
+            Cafe.cafeItems.filter { cafe in
+                if cafe.tasty >= filterItem.evaluation{
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }
+        if searchText.isEmpty{
+            return fCafe
         }else{
-            return Cafe.cafeItems.filter {
-                $0.name.contains(keywordToSearch)
+            return fCafe.filter {
+                $0.name.contains(searchText)
             }
         }
     }
     
     var body: some View {
-        ZStack(alignment: .topTrailing){
-            if blockOrMapView{
-                CafeBlockView(filtedCafes : filtedCafes)
-            }else{
-                Text("this is CafeMapView()")
-            }
-            Toggle(isOn: $blockOrMapView){
+        VStack{
+            NavigationView{
                 if blockOrMapView{
-                    Text("View in Map")
+
+                    Text("this is CafeMapView()")
+                        .navigationTitle("咖啡廳地圖")
+                        .navigationBarItems(trailing: Button{
+                            blockOrMapView = false
+                        }label:{
+                            Label("在列表中顯示", systemImage: "doc.text.magnifyingglass")
+                        })
                 }else{
-                    Text("View in Block")
+                    CafeBlockView(filtedCafes: filtedCafes, filterItem: $filterItem, blockOrMapView: $blockOrMapView)
+                        .navigationTitle("咖啡廳列表")
+                        .navigationBarItems(trailing: Button{
+                            blockOrMapView = true
+                        }label:{
+                            Label("在地圖中顯示", systemImage: "map")
+                        })
                 }
+                
             }
-            .toggleStyle(.button)
-            .padding()
         }
         .onAppear{
             if Cafe.cafeItems.isEmpty{
@@ -50,7 +72,7 @@ struct CafeView: View {
                 ProgressView()
             }
         }
-        .searchable(text: $keywordToSearch)
+        .searchable(text: $searchText)
     }
 }
 

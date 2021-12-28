@@ -32,6 +32,7 @@ struct CafeBlock: View {
                 .padding(5)
             }
         }
+        .padding(5)
         .background(Color.ui.orange)
         .cornerRadius(10)
     }

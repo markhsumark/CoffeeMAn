@@ -32,13 +32,23 @@ struct MapView: View{
             }
             HStack{
                 Button{
+                    mapViewModel.openMapAndDoNavigation(lat: place.location.latitude, long: place.location.longitude)
+                }label:{
+                    Rectangle()
+                        .frame(width: 100, height: 40)
+                        .foregroundColor(.blue)
+                        .cornerRadius(10)
+                        .overlay(Label("開始導航", systemImage: "map")
+                                    .foregroundColor(.white))
+                }
+                Button{
                     mapViewModel.changeRegion(location : place.location)
                 }label:{
                     Rectangle()
-                        .frame(width: 150, height: 40)
+                        .frame(width: 100, height: 40)
                         .foregroundColor(.red)
                         .cornerRadius(10)
-                        .overlay(Label("Destinaton", systemImage: "mappin.circle")
+                        .overlay(Label("目的地", systemImage: "mappin.circle")
                                     .foregroundColor(.white))
                 }
                 LocationButton(.currentLocation){
@@ -53,6 +63,7 @@ struct MapView: View{
             
         }
     }
+    
 }
 
 //struct MapView_Previews: PreviewProvider{

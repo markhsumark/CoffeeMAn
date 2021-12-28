@@ -78,5 +78,21 @@ final class MapViewModel : NSObject, ObservableObject, CLLocationManagerDelegate
         self.region = MKCoordinateRegion(center: location,
                                     span: MapDetail.defaultSpan)
     }
+    
+    func openMapAndDoNavigation(lat : Double, long : Double){
+        //設定目的地座標
+        let targetLocation=CLLocationCoordinate2D(latitude: lat, longitude: long)
+        let targetPlacemark=MKPlacemark(coordinate: targetLocation)
+        //導航目的地建立一個MKMapItem
+        let targetItem = MKMapItem(placemark: targetPlacemark)
+        
+        //獲取使用者位置MKMapItem
+        let userMapItem = MKMapItem.forCurrentLocation()
+        
+        //設定路徑
+        let routes = [userMapItem, targetItem]
+        
+        MKMapItem.openMaps(with: routes, launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+    }
 
 }
