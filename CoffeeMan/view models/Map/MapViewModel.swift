@@ -42,10 +42,10 @@ final class MapViewModel : NSObject, ObservableObject, CLLocationManagerDelegate
             //show an error
             return
         }
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
             self.region = MKCoordinateRegion(center: latestLocation.coordinate,
                                         span: MapDetail.defaultSpan)
-        }
+//        }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)

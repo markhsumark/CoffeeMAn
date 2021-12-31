@@ -24,14 +24,17 @@ struct CafeInfo: View {
     var body: some View {
         NavigationView{
             ZStack(alignment: .bottomTrailing){
-                List{
+                VStack{
+                    Text(cafeData.name)
+                    Text(cafeData.city)
+                    Text(cafeData.address)
+                    Text(cafeData.open_time)
                     if cafeUrlStr != ""{
                         Button("網站連結"){
                             isShowSheet = true
                         }
                     }
                 }
-                .listStyle(.plain)
                 NavigationLink{
                     MapView(place: place, cafeName: cafeData.name)
                 }label:{
@@ -51,7 +54,7 @@ struct CafeInfo: View {
                 SafariView(url: URL(string: cafeUrlStr)!)
             }
             .navigationBarTitle(Text("咖啡廳"), displayMode: .inline)
-            .navigationBarItems(leading: Button(action: {
+            .navigationBarItems(trailing: Button(action: {
                 print("Dismissing sheet view...")
                 self.showInfo = false
             }) {
