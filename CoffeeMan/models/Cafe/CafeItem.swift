@@ -9,7 +9,7 @@ import Foundation
 
 struct CafeItem: Codable{
     let id : String
-    let name: String
+    var name: String
     let wifi: Float
     let city: String
     let seat: Float?

@@ -7,52 +7,70 @@
 
 import SwiftUI
 
-enum City: String, CaseIterable, Identifiable{
-    case TaipeiCity
-    case NewTaipeiCity
-    case TaoyuanCity
-    case HsinchuCounty
-    
-    var id: String { self.rawValue }
-}
 
 struct CafeBlockView: View {
     var filtedCafes : [CafeItem]
+    
+    @EnvironmentObject var Cafe : CafeViewModel
     @Binding var filterItem : FilterItem
     @Binding var blockOrMapView : Bool
     
-    @State private var showInfo : Bool = false
-    @State private var showSliderOfValue : Bool = false
-    @State private var selectedCity = City.NewTaipeiCity
+    @State private var showSliderCheap : Bool = false
+    @State private var showSliderTasty : Bool = false
+    @State private var selectedCity = "全部"
+    @State private var selectedCafe = CafeItem(id: "", name: "", wifi: 0.0, city: "", seat: 0.0, tasty: 0.0, cheap: 0.0, music: 0.0, url: "", address: "", open_time: "", mrt: "", latitude: "", longitude: "")
     
-    let citys = ["台北", "新北", "基隆", "桃園" ,"新竹", "基隆", "苗栗", "彰化", "台中","雲林", "南投", "嘉義", "台南", "高雄", "屏東", "宜蘭", "花蓮", "台東"]
-    let citysTag = ["台北", "新北", "基隆", "桃園" ,"新竹", "基隆", "苗栗", "彰化", "台中","雲林", "南投", "嘉義", "台南", "高雄", "屏東", "宜蘭", "花蓮", "台東"]
+    //各縣市縮寫：https://www.thinkclub.com.tw/台灣縣市英文及英文縮寫/
+    let cityTags = ["台北": "Taipei", "基隆": "Keelung", "桃園": "Taoyuan",
+                    "新竹": "Hsinchu", "苗栗": "Miaoli", "台中": "Taichung",
+                    "彰化": "Changhua", "南投": "Nantou", "雲林": "Yunlin",
+                    "嘉義": "Chiayi", "台南": "Tainan", "高雄": "Kaohsiung",
+                    "屏東": "Pingtung", "宜蘭": "Yilan", "花蓮": "Hualien",
+                    "台東": "Taitung", "連江": "Lienchiang ", "澎湖": "Penghu",
+                    "全部" : ""]
+    
+    
     var body: some View {
         VStack(alignment: .trailing){
             HStack{
                 Picker(selection: $selectedCity){
-                    ForEach(citys.indices){cityname in
-                        Label("縣市: \(cityname)", systemImage: "map")
-                            .tag(City.TaipeiCity)
+                    ForEach(cityTags.sorted(by: >) , id: \.key){key, value in
+                        Text("縣市:\(key)")
+                            .tag(key)
                     }
-
                 }label:{
-                    Group{
-                        
-                    }
+                    Image(systemName: "map")
                 }
                 .frame(width: 100)
-                Toggle(isOn: $showSliderOfValue){
+                .onChange(of: selectedCity) { v in
+                    doReload()
+                }
+                Toggle(isOn: $showSliderTasty){
                     Label("評價", systemImage: "slider.horizontal.3")
                 }
                 .frame(width: 100)
                 .toggleStyle(.button)
                 .padding(5)
+                Toggle(isOn: $showSliderCheap){
+                    Label("價位", systemImage: "slider.horizontal.3")
+                }
+                .frame(width: 100)
+                .toggleStyle(.button)
+                .padding(5)
             }
-            .frame(maxHeight: 50)
-            if showSliderOfValue{
+            .frame(maxHeight: 40)
+            if showSliderCheap{
                 HStack{
-                    Text("\(filterItem.evaluation, specifier: "%.1f")")
+                    Text("價位:\(filterItem.price, specifier: "%.1f")")
+                    Spacer()
+                    Slider(value: $filterItem.price, in: 0.0...5.0)
+                }
+                .padding(.leading, 30)
+                .padding(.trailing, 30)
+            }
+            if showSliderTasty{
+                HStack{
+                    Text("評價:\(filterItem.evaluation, specifier: "%.1f")")
                     Spacer()
                     Slider(value: $filterItem.evaluation, in: 0.0...5.0)
                 }
@@ -64,22 +82,62 @@ struct CafeBlockView: View {
                 let columns = Array(repeating: GridItem(), count: 2)
                 LazyVGrid(columns: columns, spacing: 20){
                     ForEach(filtedCafes, id: \.id){cafe in
-                        Button{
-                            showInfo.toggle()
-                        }label:{
-                            CafeBlock(cafe: cafe)
-                        }
-                        .sheet(isPresented: $showInfo){
-                            if let lat = Double(cafe.latitude), let long = Double(cafe.longitude){
-                                let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
-                                CafeInfo(place: actionPlace, cafeData : cafe, showInfo: $showInfo)
-                            }
-                        }
+                        CafeBlock(cafe: cafe)
+                            .frame(height: 200)
                     }
                 }
                 .padding()
             }
         }
     }
+    func doReload(){
+        Cafe.fetchCafe(term: cityTags[selectedCity]!)
+    }
 }
 
+
+
+struct CafeBlock: View {
+    
+    var cafe : CafeItem
+    @State private var showInfo : Bool = false
+    var body: some View {
+        Button{
+            showInfo.toggle()
+        }label:{
+            VStack{
+                
+                Text("\(cafe.name)")
+                    .foregroundColor(Color.ui.titletext)
+                    .font(.title2)
+                    .bold()
+                    .padding(5)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                
+                //                Image("coffee-icon")
+                //                    .resizable()
+                //                    .scaledToFit()
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack {
+                        Text("評分:\(cafe.tasty, specifier: "%.1f")")
+                        Text("價位:\(cafe.cheap, specifier: "%.1f")")
+                    }
+                    .foregroundColor(Color.ui.text)
+                    .padding(5)
+                }
+            }
+            .padding(5)
+            .background(Color.ui.orange)
+            .cornerRadius(10)
+        }
+        .sheet(isPresented: $showInfo){
+            if let lat = Double(cafe.latitude), let long = Double(cafe.longitude){
+                let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
+                CafeInfo(place: actionPlace, cafeData : cafe, showInfo: $showInfo)
+            }
+        }
+        
+    }
+
+}

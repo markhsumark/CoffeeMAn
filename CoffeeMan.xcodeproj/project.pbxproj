@@ -28,8 +28,10 @@
 		1C69D8F72778814E00743BAB /* CafeNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8F62778814E00743BAB /* CafeNewsView.swift */; };
 		1C69D8F92778AD2100743BAB /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8F82778AD2100743BAB /* NewsViewModel.swift */; };
 		1C69D8FB2778B03D00743BAB /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8FA2778B03D00743BAB /* NewsItem.swift */; };
-		1C7DEA052772C4B500CAEC81 /* CafeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7DEA042772C4B500CAEC81 /* CafeBlock.swift */; };
 		1C7DEA072772DD4100CAEC81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7DEA062772DD4100CAEC81 /* MapView.swift */; };
+		1CFBF14E278017CC00C80A35 /* CafeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF14D278017CC00C80A35 /* CafeMapView.swift */; };
+		1CFBF1512780265600C80A35 /* CafeData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF14F2780265600C80A35 /* CafeData.xcdatamodeld */; };
+		1CFBF1762780298800C80A35 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF1752780298800C80A35 /* Persistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,8 +57,10 @@
 		1C69D8F62778814E00743BAB /* CafeNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeNewsView.swift; sourceTree = "<group>"; };
 		1C69D8F82778AD2100743BAB /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		1C69D8FA2778B03D00743BAB /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
-		1C7DEA042772C4B500CAEC81 /* CafeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeBlock.swift; sourceTree = "<group>"; };
 		1C7DEA062772DD4100CAEC81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		1CFBF14D278017CC00C80A35 /* CafeMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeMapView.swift; sourceTree = "<group>"; };
+		1CFBF1502780265600C80A35 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		1CFBF1752780298800C80A35 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,12 +77,11 @@
 		1C239EE4277724AC00B5C24B /* Cafe */ = {
 			isa = PBXGroup;
 			children = (
-				1C55FACC275F6B1200090274 /* CoffeeManApp.swift */,
 				1C55FADC275F7B8B00090274 /* CafeView.swift */,
-				1C7DEA042772C4B500CAEC81 /* CafeBlock.swift */,
 				1C239EE5277724C100B5C24B /* CafeInfo.swift */,
 				1C239EEE2777682600B5C24B /* CafeBlockView.swift */,
 				1C69D8F62778814E00743BAB /* CafeNewsView.swift */,
+				1CFBF14D278017CC00C80A35 /* CafeMapView.swift */,
 			);
 			path = Cafe;
 			sourceTree = "<group>";
@@ -148,6 +151,8 @@
 				1C55FADE275F80B000090274 /* view models */,
 				1C55FAD0275F6B1400090274 /* Assets.xcassets */,
 				1C55FAD2275F6B1400090274 /* Preview Content */,
+				1CFBF14F2780265600C80A35 /* CafeData.xcdatamodeld */,
+				1CFBF1752780298800C80A35 /* Persistence.swift */,
 			);
 			path = CoffeeMan;
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				1C239EE727772D1100B5C24B /* Map */,
 				1C239EE4277724AC00B5C24B /* Cafe */,
 				1C55FACE275F6B1200090274 /* ContentView.swift */,
+				1C55FACC275F6B1200090274 /* CoffeeManApp.swift */,
 				1C55FAE9275F980200090274 /* IGPage.swift */,
 				1C69D8F027786D9D00743BAB /* SafariView.swift */,
 				1C69D8F42778809800743BAB /* FavoriteListView.swift */,
@@ -267,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C69D8F72778814E00743BAB /* CafeNewsView.swift in Sources */,
-				1C7DEA052772C4B500CAEC81 /* CafeBlock.swift in Sources */,
 				1C239EE02776FCAB00B5C24B /* MapModel.swift in Sources */,
 				1C55FAE2275F818500090274 /* CafeViewModel.swift in Sources */,
 				1C239EE22777091D00B5C24B /* MapPinView.swift in Sources */,
@@ -281,9 +286,12 @@
 				1C69D8F127786D9D00743BAB /* SafariView.swift in Sources */,
 				1C69D8F92778AD2100743BAB /* NewsViewModel.swift in Sources */,
 				1C55FAE6275F8BD900090274 /* IGTagsItem.swift in Sources */,
+				1CFBF1512780265600C80A35 /* CafeData.xcdatamodeld in Sources */,
+				1CFBF1762780298800C80A35 /* Persistence.swift in Sources */,
 				1C55FADB275F7B2400090274 /* CafeItem.swift in Sources */,
 				1C55FAE4275F8B9500090274 /* IGViewModel.swift in Sources */,
 				1C69D8F52778809800743BAB /* FavoriteListView.swift in Sources */,
+				1CFBF14E278017CC00C80A35 /* CafeMapView.swift in Sources */,
 				1C55FACF275F6B1200090274 /* ContentView.swift in Sources */,
 				1C55FACD275F6B1200090274 /* CoffeeManApp.swift in Sources */,
 				1C239EE6277724C100B5C24B /* CafeInfo.swift in Sources */,
@@ -493,6 +501,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1CFBF14F2780265600C80A35 /* CafeData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1CFBF1502780265600C80A35 /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 1CFBF1502780265600C80A35 /* CoreData.xcdatamodel */;
+			path = CafeData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1C55FAC1275F6B1100090274 /* Project object */;
 }

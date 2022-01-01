@@ -30,7 +30,26 @@ struct MapView: View{
             .onAppear {
                 mapViewModel.checkIfLocationServicesIsEnable()
             }
-            HStack{
+            VStack{
+                HStack{
+                    Button{
+                        mapViewModel.changeRegion(location : place.location)
+                    }label:{
+                        Rectangle()
+                            .frame(width: 100, height: 40)
+                            .foregroundColor(.red)
+                            .cornerRadius(10)
+                            .overlay(Label("目的地", systemImage: "mappin.circle")
+                                        .foregroundColor(.white))
+                    }
+                    LocationButton(.currentLocation){
+                        mapViewModel.requestAllowOnceLocationPermission()
+                    }
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .labelStyle(.titleAndIcon)
+                    .symbolVariant(.fill)
+                }
                 Button{
                     mapViewModel.openMapAndDoNavigation(lat: place.location.latitude, long: place.location.longitude)
                 }label:{
@@ -41,25 +60,8 @@ struct MapView: View{
                         .overlay(Label("開始導航", systemImage: "map")
                                     .foregroundColor(.white))
                 }
-                Button{
-                    mapViewModel.changeRegion(location : place.location)
-                }label:{
-                    Rectangle()
-                        .frame(width: 100, height: 40)
-                        .foregroundColor(.red)
-                        .cornerRadius(10)
-                        .overlay(Label("目的地", systemImage: "mappin.circle")
-                                    .foregroundColor(.white))
-                }
-                LocationButton(.currentLocation){
-                    mapViewModel.requestAllowOnceLocationPermission()
-                }
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .labelStyle(.titleAndIcon)
-                .symbolVariant(.fill)
-            }
-            .padding(.bottom, 50)
+                
+            }.padding(.bottom, 50)
             
         }
     }
