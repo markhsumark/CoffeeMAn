@@ -12,6 +12,7 @@
 		1C239EE22777091D00B5C24B /* MapPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C239EE12777091D00B5C24B /* MapPinView.swift */; };
 		1C239EE6277724C100B5C24B /* CafeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C239EE5277724C100B5C24B /* CafeInfo.swift */; };
 		1C239EEF2777682600B5C24B /* CafeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C239EEE2777682600B5C24B /* CafeBlockView.swift */; };
+		1C2A2EE22781A60D0075577B /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2A2EE12781A60C0075577B /* Keys.swift */; };
 		1C55FACD275F6B1200090274 /* CoffeeManApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C55FACC275F6B1200090274 /* CoffeeManApp.swift */; };
 		1C55FACF275F6B1200090274 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C55FACE275F6B1200090274 /* ContentView.swift */; };
 		1C55FAD1275F6B1400090274 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C55FAD0275F6B1400090274 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		1C239EE12777091D00B5C24B /* MapPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPinView.swift; sourceTree = "<group>"; };
 		1C239EE5277724C100B5C24B /* CafeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeInfo.swift; sourceTree = "<group>"; };
 		1C239EEE2777682600B5C24B /* CafeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeBlockView.swift; sourceTree = "<group>"; };
+		1C2A2EE12781A60C0075577B /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		1C55FAC9275F6B1200090274 /* CoffeeMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C55FACC275F6B1200090274 /* CoffeeManApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeManApp.swift; sourceTree = "<group>"; };
 		1C55FACE275F6B1200090274 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,7 +83,6 @@
 				1C55FADC275F7B8B00090274 /* CafeView.swift */,
 				1C239EE5277724C100B5C24B /* CafeInfo.swift */,
 				1C239EEE2777682600B5C24B /* CafeBlockView.swift */,
-				1C69D8F62778814E00743BAB /* CafeNewsView.swift */,
 				1CFBF14D278017CC00C80A35 /* CafeMapView.swift */,
 			);
 			path = Cafe;
@@ -128,6 +129,22 @@
 			path = Cafe;
 			sourceTree = "<group>";
 		};
+		1C2A2EE32781A6920075577B /* News */ = {
+			isa = PBXGroup;
+			children = (
+				1C69D8F62778814E00743BAB /* CafeNewsView.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		1C2A2EE42781A6BE0075577B /* News */ = {
+			isa = PBXGroup;
+			children = (
+				1C69D8F82778AD2100743BAB /* NewsViewModel.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
 		1C55FAC0275F6B1100090274 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +164,7 @@
 		1C55FACB275F6B1200090274 /* CoffeeMan */ = {
 			isa = PBXGroup;
 			children = (
+				1C2A2EE12781A60C0075577B /* Keys.swift */,
 				1CCD5A092781969300021C14 /* Info.plist */,
 				1C55FAE0275F80DB00090274 /* views  */,
 				1C55FADF275F80C900090274 /* models */,
@@ -170,10 +188,10 @@
 		1C55FADE275F80B000090274 /* view models */ = {
 			isa = PBXGroup;
 			children = (
+				1C2A2EE42781A6BE0075577B /* News */,
 				1C239EEA27772D3100B5C24B /* Cafe */,
 				1C239EE927772D2600B5C24B /* Map */,
 				1C55FAE3275F8B9500090274 /* IGViewModel.swift */,
-				1C69D8F82778AD2100743BAB /* NewsViewModel.swift */,
 			);
 			path = "view models";
 			sourceTree = "<group>";
@@ -193,6 +211,7 @@
 		1C55FAE0275F80DB00090274 /* views  */ = {
 			isa = PBXGroup;
 			children = (
+				1C2A2EE32781A6920075577B /* News */,
 				1C239EE727772D1100B5C24B /* Map */,
 				1C239EE4277724AC00B5C24B /* Cafe */,
 				1C55FACE275F6B1200090274 /* ContentView.swift */,
@@ -279,6 +298,7 @@
 				1C55FAE2275F818500090274 /* CafeViewModel.swift in Sources */,
 				1C239EE22777091D00B5C24B /* MapPinView.swift in Sources */,
 				1C55FADD275F7B8B00090274 /* CafeView.swift in Sources */,
+				1C2A2EE22781A60D0075577B /* Keys.swift in Sources */,
 				1C239EDE2776467500B5C24B /* MapViewModel.swift in Sources */,
 				1C7DEA072772DD4100CAEC81 /* MapView.swift in Sources */,
 				1C55FAE8275F913A00090274 /* IGAccountItem.swift in Sources */,

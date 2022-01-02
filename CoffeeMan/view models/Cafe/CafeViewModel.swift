@@ -36,6 +36,22 @@ class CafeViewModel: ObservableObject{
     }
 }
 
+enum Environment {
+
+    case placeApi
+
+    var apiKey: String {
+        switch self {
+        case .placeApi:
+            guard let token = Keys.GooglePlaceAPIKey else {
+                               assertionFailure("Please fill the place API Key in Keys.swift")
+                               return "api_key_not_found"
+                           }
+                           return token
+        }
+    }
+}
+
 class CafeViewModelTest: ObservableObject{
 //https://developers.google.com/maps/documentation/places/web-service/overview
 //https://medium.com/彼得潘的試煉-勇者的-100-道-swift-ios-app-謎題/串接-places-api-抓取附近的店家資訊和照片-fa1a0c1bb475
@@ -44,16 +60,13 @@ class CafeViewModelTest: ObservableObject{
     let basicNearUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     var location = "25.0338,121.5646"
     var name = "cafe"
-    let key = "YOUR_API_KEY"
+    
+    let apiKey = Environment.placeApi
+    
+        
     @Published var cafeItems = [CafeItem]()
     func fetchCafe(term:String){
-        if let apiKey = Bundle.main.infoDictionary?["APIKey"] as? String {
-           print("API Key is : ", apiKey)
-        }
-        else{
-            print("API Key not found!!!")
-        }
-        let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + key + "&sensor=true"
+        let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + apiKey + "&sensor=true"
         if let url = URL(string: urlString){
             
             URLSession.shared.dataTask(with: url) {data, response, error in
