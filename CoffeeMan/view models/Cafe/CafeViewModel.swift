@@ -44,7 +44,7 @@ class CafeViewModelTest: ObservableObject{
     let basicNearUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     var location = "25.0338,121.5646"
     var name = "cafe"
-    let key = "AIzaSyBftgBJNJ_yMFu3V27tvQXR3-1F1Bledkk"
+    let key = "YOUR_API_KEY"
     @Published var cafeItems = [CafeItem]()
     func fetchCafe(term:String){
         let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + key + "&sensor=true"
