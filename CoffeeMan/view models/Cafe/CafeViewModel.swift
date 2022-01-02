@@ -36,7 +36,7 @@ class CafeViewModel: ObservableObject{
     }
 }
 
-enum Environment {
+enum APIManager {
 
     case placeApi
 
@@ -61,12 +61,12 @@ class CafeViewModelTest: ObservableObject{
     var location = "25.0338,121.5646"
     var name = "cafe"
     
-    let apiKey = Environment.placeApi
+    let Key : APIManager = APIManager.placeApi
     
         
     @Published var cafeItems = [CafeItem]()
     func fetchCafe(term:String){
-        let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + apiKey + "&sensor=true"
+        let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + Key.apiKey + "&sensor=true"
         if let url = URL(string: urlString){
             
             URLSession.shared.dataTask(with: url) {data, response, error in
