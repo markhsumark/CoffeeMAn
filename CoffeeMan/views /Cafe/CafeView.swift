@@ -15,6 +15,7 @@ struct FilterItem{
 struct CafeView: View {
     
     @StateObject var Cafe = CafeViewModel()
+    @StateObject var CafeTest = CafeViewModelTest()
     @State private var searchText = ""
     @State private var blockOrMapView : Bool = false
     @State private var filterItem : FilterItem = FilterItem(evaluation: 0.0, price: 0.0)
@@ -76,6 +77,7 @@ struct CafeView: View {
         }
         .onAppear(perform: {
             Cafe.fetchCafe(term: "")
+            CafeTest.fetchCafe(term: "")
         })
         .overlay{
             if Cafe.cafeItems.isEmpty{

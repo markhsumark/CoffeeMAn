@@ -47,6 +47,12 @@ class CafeViewModelTest: ObservableObject{
     let key = "AIzaSyBftgBJNJ_yMFu3V27tvQXR3-1F1Bledkk"
     @Published var cafeItems = [CafeItem]()
     func fetchCafe(term:String){
+        if let apiKey = Bundle.main.infoDictionary?["APIKey"] as? String {
+           print("API Key is : ", apiKey)
+        }
+        else{
+            print("API Key not found!!!")
+        }
         let urlString = basicNearUrl + "location=" + location + "&radius=1000&keyword=" + name + "&language=zh-TW&key=" + key + "&sensor=true"
         if let url = URL(string: urlString){
             

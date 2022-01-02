@@ -111,8 +111,8 @@ struct ArticleImage: View{
                         .scaledToFit()
                         .frame(maxHeight: .infinity/2)
                 }else if phase.error != nil{
-                    Image(systemName: "questionmark.circle")
-                        .resizable()
+                    Text("No Image")
+                        .opacity(0.5)
                 }else{
                     ProgressView()
                 }
