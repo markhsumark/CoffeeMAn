@@ -54,15 +54,15 @@ struct ArticleBlock : View{
         VStack(alignment: .leading){
             ArticleImage(imageUrl: article.urlToImage)
             Text("標題:\(article.title)")
-                .foregroundColor(Color.ui.titletext)
+                .foregroundColor(Color.ui.newstitletext)
                 .font(.title2)
                 .bold()
             Text("作者:\(article.author)")
-                .foregroundColor(Color.ui.text)
+                .foregroundColor(Color.ui.newstext)
         }
         .frame(maxWidth: .infinity-50)
         .padding()
-        .background(Color.blue.opacity(0.75))
+        .background(Color.ui.news.opacity(0.75))
         .cornerRadius(7)
     }
 }
@@ -75,17 +75,21 @@ struct ArticleInfo : View{
             VStack(alignment: .leading){
                 ArticleImage(imageUrl: article.urlToImage)
                 Text("\(article.title)")
-                    .foregroundColor(Color.ui.titletext)
+                    .foregroundColor(Color.ui.newstitletext)
                     .font(.title3)
                     .bold()
                     .padding()
                 Text("內容:\(article.description)")
                 Link(destination: URL(string: article.url)!){
-                    Label("新聞原始網站", systemImage: "link")
-                        .foregroundColor(Color.ui.text)
+                    Rectangle()
+                        .frame(width: 150, height: 40)
+                        .overlay{
+                            Label("新聞原始網站", systemImage: "link")
+                                .foregroundColor(.white)
+                        }
+                        .cornerRadius(15)
+                        .foregroundColor(Color.ui.orange)
                         .padding()
-                        .background(Color.ui.orange)
-                        .cornerRadius(10)
                 }
             }
             .padding()

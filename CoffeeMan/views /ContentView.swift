@@ -35,6 +35,10 @@ extension Color {
         let orange = Color("orange")
         let titletext = Color("titletext")
         let text = Color("text")
+        let news = Color("news")
+        let newstext = Color("newtext")
+        let newstitletext = Color("newtitletext")
+        let map = Color("map")
     }
 }
 

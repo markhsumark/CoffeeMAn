@@ -36,50 +36,81 @@ struct CafeInfo: View {
                 List{
                     VStack(alignment: .leading){
                         Text("店名：\(cafeData.name)")
+                            .foregroundColor(Color.ui.titletext)
+                            .font(.title3)
                         Text("地址：\(cafeData.address)")
                         Text("營業時間\(cafeData.open_time)")
-                        if cafeUrlStr != ""{
-                            Button("網站連結"){
-                                isShowSheet.toggle()
+                        ScrollView(.horizontal){
+                            HStack{
+                                Label("\(cafeData.tasty, specifier: "%.1f")", systemImage: "star")
+                                    .foregroundColor(Color.ui.orange)
+                                Label("\(cafeData.cheap, specifier: "%.1f")", systemImage: "dollarsign.circle")
+                                    .foregroundColor(.yellow)
+                                Label("\(cafeData.music, specifier: "%.1f")", systemImage: "music.note")
+                                Label("\(cafeData.wifi, specifier: "%.1f")", systemImage: "wifi.circle")
+                                    .foregroundColor(.blue)
                             }
+                        }
+                        
+                        if cafeUrlStr != ""{
+                            Button{
+                                isShowSheet.toggle()
+                            }label:{
+                                Text("網站連結(點我！)")
+                                    .foregroundColor(.gray)
+                            }
+                            .buttonStyle(.plain)
+                        }else{
+                            Text("沒有相關網站資訊")
                         }
                     }
                     if let url = cafeData.url{
                         WebView(url : url)
                             .frame(height: 500)
                     }else{
-                        Spacer()
+//                        Spacer()
                         Text("沒有官方網頁鏈結")
-                        Spacer()
+//                        Spacer()
                     }
                     
                 }
-                NavigationLink{
-                    MapView(place: place, cafeName: cafeData.name)
-                }label:{
-                    Rectangle()
-                        .frame(width: 120, height: 40)
-                        .foregroundColor(Color.ui.orange)
-                        .overlay{
-                            Label("Map", systemImage: "map")
-                                .foregroundColor(.white)
-                        }
-                        .cornerRadius(20)
-                        .padding(15)
-                }
-                if ifAdded == false{
-                    Button("add"){
-                        ifAdded.toggle()
-                        showAlert.toggle()
-                        addItem(cafeData: cafeData)
+                HStack{
+                    NavigationLink{
+                        MapView(place: place, cafeName: cafeData.name)
+                    }label:{
+                        Rectangle()
+                            .frame(width: 120, height: 40)
+                            .foregroundColor(Color.ui.map)
+                            .overlay{
+                                Label("Map", systemImage: "map")
+                                    .foregroundColor(.white)
+                            }
+                            .cornerRadius(20)
+                            .padding(5)
                     }
-                    .alert("已加入喜好列表", isPresented: $showAlert) {
-                        Button("OK"){
+                    if ifAdded == false{
+                        Button{
+                            ifAdded.toggle()
                             showAlert.toggle()
+                            addItem(cafeData: cafeData)
+                        }label:{
+                            Rectangle()
+                                .frame(width: 200, height: 40)
+                                .overlay{
+                                    Text("新增至喜好列表")
+                                        .foregroundColor(.white)
+                                }
+                                .cornerRadius(20)
+                                .padding(5)
                         }
                     }
                 }
 
+            }
+            .alert("已加入喜好列表", isPresented: $showAlert) {
+                Button("OK"){
+                    showAlert = false
+                }
             }
             .sheet(isPresented: $isShowSheet){
                 SafariView(url: URL(string: cafeUrlStr)!)
@@ -103,7 +134,7 @@ struct CafeInfo: View {
             newItem.latitude = cafeData.latitude
             newItem.longitude = cafeData.longitude
             newItem.url = cafeData.url
-            newItem.likeValue = 5.0
+            newItem.likeValue = 0.0
             newItem.beenTo = false
             do {
                 

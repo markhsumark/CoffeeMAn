@@ -9,9 +9,7 @@ import SwiftUI
 
 struct FavoriteListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Cafe.savedDate, ascending: true)], animation: .default)
-    
-    private var cafes : FetchedResults<Cafe>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Cafe.savedDate, ascending: true)], animation: .default) private var cafes : FetchedResults<Cafe>
     
     var body: some View {
         NavigationView{
@@ -19,7 +17,6 @@ struct FavoriteListView: View {
                 Section(header: Text("想去的咖啡廳")){
                     ForEach(cafes){cafe in
                         if cafe.beenTo == false{
-                            
                             likeListItem(cafe: cafe)
                         }
                     }
@@ -50,6 +47,7 @@ struct FavoriteListView: View {
             do{
                 try viewContext.save()
             }catch{
+                print("fail to delete")
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
@@ -58,47 +56,63 @@ struct FavoriteListView: View {
 
 }
 
+
 struct likeListItem: View{
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var cafe : Cafe
     @State private var selectedValue = 0.0
+    @State var offset = CGSize.zero
+    
+    var dragGesture: some Gesture{
+        DragGesture()
+            .onChanged({value in
+                offset = value.translation
+            })
+    }
     var body : some View{
         VStack(alignment: .leading){
-            Text("\(cafe.name!)")
-                .foregroundColor(Color.ui.titletext)
-                .font(.title2)
-                .bold()
-                .padding(5)
-            Picker(selection: $selectedValue ){
-                Label("5", systemImage: "star")
-                    .tag(5.0)
-                Label("4", systemImage: "star")
-                    .tag(4.0)
-                Label("3", systemImage: "star")
-                    .tag(3.0)
-                Label("2", systemImage: "star")
-                    .tag(2.0)
-                Label("1", systemImage: "star")
-                    .tag(1.0)
-                Label("0", systemImage: "star")
-                    .tag(0.0)
-            }label:{
-                Image(systemName: "star")
-                Text("個人評價\(cafe.likeValue, specifier: "%.0f")")
+            if let name = cafe.name{
+                Text("\(name)")
+                    .foregroundColor(Color.ui.titletext)
+                    .font(.title2)
+                    .bold()
+                    .padding(5)
             }
-            .pickerStyle(.menu)
-            .onChange(of: selectedValue) { v in
-                modifyValue(cafe, value : Float(v))
+            HStack{
+                Text("個人評價:")
+                Picker(selection: $selectedValue ){
+                    Label("無", systemImage: "star")
+                        .tag(0.0)
+                    Label("5", systemImage: "star")
+                        .tag(5.0)
+                    Label("4", systemImage: "star")
+                        .tag(4.0)
+                    Label("3", systemImage: "star")
+                        .tag(3.0)
+                    Label("2", systemImage: "star")
+                        .tag(2.0)
+                    Label("1", systemImage: "star")
+                        .tag(1.0)
+                    Label("0", systemImage: "star")
+                        .tag(0.0)
+                }label:{
+                }
+                .pickerStyle(.menu)
+                .onChange(of: selectedValue) { v in
+                    modifyValue(cafe, value : Float(v))
+                }
             }
             NavigationLink{
-                if let lat = Double(cafe.latitude!), let long = Double(cafe.longitude!){
-                    let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
-                    MapView(place: actionPlace, cafeName: cafe.name!)
+                if let lat = cafe.latitude, let long = cafe.longitude{
+                    if let lat = Double(lat), let long = Double(long){
+                        let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
+                        MapView(place: actionPlace, cafeName: cafe.name!)
+                    }
                 }
             }label:{
                 Rectangle()
                     .frame(width: 120, height: 40)
-                    .foregroundColor(Color.ui.orange)
+                    .foregroundColor(Color.ui.map)
                     .overlay{
                         Label("Map", systemImage: "map")
                             .foregroundColor(.white)
@@ -106,6 +120,8 @@ struct likeListItem: View{
                     .cornerRadius(5)
                     .padding(5)
             }
+            .buttonStyle(.plain)
+
         }
         .onAppear(perform: {
             selectedValue = Double(cafe.likeValue)
@@ -116,7 +132,7 @@ struct likeListItem: View{
                     modifyBeenTo(cafe)
                 }label:{
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.gray)
                         .padding(5)
                         .font(.system(size: 30))
                 }
@@ -127,13 +143,20 @@ struct likeListItem: View{
                     modifyBeenTo(cafe)
                 }label:{
                     Image(systemName: "checkmark.circle")
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.gray)
                         .padding(5)
                         .font(.system(size: 30))
                 }
                 .buttonStyle(.plain)
             }
         }
+        .offset(offset)
+//        .gesture(
+//            DragGesture()
+//                .onChanged({value in
+//                    offset = value.translation
+//                })
+//        )
     }
     private func modifyBeenTo(_ cafe: Cafe){
         withAnimation {

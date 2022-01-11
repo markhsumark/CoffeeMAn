@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CafeMapView: View {
-    @StateObject private var Cafe = CafeViewModelTest()
+    @StateObject private var Cafe = PlaceViewModel()
+    
     var body: some View {
         Text("this is CafeMapView()")
             .onAppear {

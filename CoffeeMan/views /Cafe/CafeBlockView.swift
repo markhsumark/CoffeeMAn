@@ -89,6 +89,14 @@ struct CafeBlockView: View {
                 .padding()
             }
         }
+        .onAppear(perform: {
+            Cafe.fetchCafe(term: "")
+        })
+        .overlay{
+            if Cafe.cafeItems.isEmpty{
+                ProgressView()
+            }
+        }
     }
     func doReload(){
         Cafe.fetchCafe(term: cityTags[selectedCity]!)

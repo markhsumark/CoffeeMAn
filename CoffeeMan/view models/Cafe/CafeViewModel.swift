@@ -52,7 +52,7 @@ enum APIManager {
     }
 }
 
-class CafeViewModelTest: ObservableObject{
+class PlaceViewModel: ObservableObject{
 //https://developers.google.com/maps/documentation/places/web-service/overview
 //https://medium.com/彼得潘的試煉-勇者的-100-道-swift-ios-app-謎題/串接-places-api-抓取附近的店家資訊和照片-fa1a0c1bb475
 //    資料來源
