@@ -24,6 +24,7 @@ struct MapPinView : View{
             Text(name)
                 .foregroundColor(.red)
                 .cornerRadius(8)
+                .frame(maxWidth: 30)
         }
     }
     

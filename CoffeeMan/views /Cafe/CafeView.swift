@@ -15,27 +15,8 @@ struct FilterItem{
 struct CafeView: View {
     
     @StateObject var Cafe = CafeViewModel()
-    @State private var searchText = ""
     @State private var blockOrMapView : Bool = false
     @State private var filterItem : FilterItem = FilterItem(evaluation: 0.0, price: 0.0)
-    var filtedCafes : [CafeItem]{
-        var fCafe : [CafeItem]{
-            Cafe.cafeItems.filter { cafe in
-                if cafe.tasty >= filterItem.evaluation, cafe.cheap >= filterItem.price{
-                    return true
-                }else{
-                    return false
-                }
-            }
-        }
-        if searchText.isEmpty{
-            return fCafe
-        }else{
-            return fCafe.filter {
-                $0.name.contains(searchText)
-            }
-        }
-    }
     //https://cafenomad.tw/taipei/map
     //
     //然後我最近有加一些咖啡相關的討論區功能
@@ -55,7 +36,7 @@ struct CafeView: View {
         VStack{
             NavigationView{
                 if blockOrMapView{
-                    CafeMapView()
+                    CafeMapView(filterItem: $filterItem, blockOrMapView: $blockOrMapView)
                         .navigationTitle("咖啡廳地圖")
                         .navigationBarItems(trailing: Button{
                             blockOrMapView = false
@@ -63,7 +44,7 @@ struct CafeView: View {
                             Label("在列表中顯示", systemImage: "doc.text.magnifyingglass")
                         })
                 }else{
-                    CafeBlockView(filtedCafes: filtedCafes, filterItem: $filterItem, blockOrMapView: $blockOrMapView)
+                    CafeBlockView(filterItem: $filterItem, blockOrMapView: $blockOrMapView)
                         .navigationTitle("咖啡廳列表")
                         .navigationBarItems(trailing: Button{
                             blockOrMapView = true
@@ -74,7 +55,6 @@ struct CafeView: View {
                 
             }
         }
-        .searchable(text: $searchText)
         .environmentObject(Cafe)
     }
 

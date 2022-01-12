@@ -78,10 +78,10 @@ class PlaceViewModel: ObservableObject{
 //
 //                        let decoder = JSONDecoder()
 //                        decoder.dateDecodingStrategy = .iso8601
-////                        let searchResponse = try decoder.decode([CafeItem].self, from: data)
-////                        DispatchQueue.main.async {
-////                            self.cafeItems = searchResponse
-////                        }
+//                        let searchResponse = try decoder.decode([CafeItem].self, from: data)
+//                        DispatchQueue.main.async {
+//                            self.cafeItems = searchResponse
+//                        }
 //                    }
 //                    catch{
 //                        print(error)

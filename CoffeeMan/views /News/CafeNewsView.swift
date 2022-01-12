@@ -45,6 +45,9 @@ struct CafeNewsView: View {
                 ProgressView()
             }
         }
+        .refreshable {
+            news.fetchNews(keyWords: "台灣咖啡廳")
+        }
     }
 }
 

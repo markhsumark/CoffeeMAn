@@ -9,7 +9,25 @@ import SwiftUI
 
 
 struct CafeBlockView: View {
-    var filtedCafes : [CafeItem]
+    @State private var searchText = ""
+    var filtedCafes : [CafeItem]{
+        var fCafe : [CafeItem]{
+            Cafe.cafeItems.filter { cafe in
+                if cafe.tasty >= filterItem.evaluation, cafe.cheap >= filterItem.price{
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }
+        if searchText.isEmpty{
+            return fCafe
+        }else{
+            return fCafe.filter {
+                $0.name.contains(searchText)
+            }
+        }
+    }
     
     @EnvironmentObject var Cafe : CafeViewModel
     @Binding var filterItem : FilterItem
@@ -88,6 +106,9 @@ struct CafeBlockView: View {
                 }
                 .padding()
             }
+            .refreshable {
+                doReload()
+            }
         }
         .onAppear(perform: {
             Cafe.fetchCafe(term: "")
@@ -97,6 +118,7 @@ struct CafeBlockView: View {
                 ProgressView()
             }
         }
+        .searchable(text: $searchText)
     }
     func doReload(){
         Cafe.fetchCafe(term: cityTags[selectedCity]!)
