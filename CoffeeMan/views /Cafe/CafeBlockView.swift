@@ -35,6 +35,7 @@ struct CafeBlockView: View {
     
     @State private var showSliderCheap : Bool = false
     @State private var showSliderTasty : Bool = false
+
     @State private var selectedCity = "全部"
     @State private var selectedCafe = CafeItem(id: "", name: "", wifi: 0.0, city: "", seat: 0.0, tasty: 0.0, cheap: 0.0, music: 0.0, url: "", address: "", open_time: "", mrt: "", latitude: "", longitude: "")
     
@@ -44,8 +45,7 @@ struct CafeBlockView: View {
                     "彰化": "Changhua", "南投": "Nantou", "雲林": "Yunlin",
                     "嘉義": "Chiayi", "台南": "Tainan", "高雄": "Kaohsiung",
                     "屏東": "Pingtung", "宜蘭": "Yilan", "花蓮": "Hualien",
-                    "台東": "Taitung", "連江": "Lienchiang ", "澎湖": "Penghu",
-                    "全部" : ""]
+                    "台東": "Taitung", "連江": "Lienchiang ", "澎湖": "Penghu"]
     
     
     var body: some View {
@@ -102,16 +102,20 @@ struct CafeBlockView: View {
                     ForEach(filtedCafes, id: \.id){cafe in
                         CafeBlock(cafe: cafe)
                             .frame(height: 200)
+                            
+
                     }
                 }
                 .padding()
+                .refreshable {
+                    doReload()
+                }
             }
-            .refreshable {
-                doReload()
-            }
+            
         }
         .onAppear(perform: {
             Cafe.fetchCafe(term: "")
+
         })
         .overlay{
             if Cafe.cafeItems.isEmpty{
@@ -119,6 +123,11 @@ struct CafeBlockView: View {
             }
         }
         .searchable(text: $searchText)
+        .alert("沒有網路連線", isPresented: $Cafe.showError) {
+            Button("OK"){
+                Cafe.showError = false
+            }
+        }
     }
     func doReload(){
         Cafe.fetchCafe(term: cityTags[selectedCity]!)
@@ -131,6 +140,7 @@ struct CafeBlock: View {
     
     var cafe : CafeItem
     @State private var showInfo : Bool = false
+    @State private var showBlock : Bool = false
     var body: some View {
         Button{
             showInfo.toggle()
@@ -156,11 +166,21 @@ struct CafeBlock: View {
                     .foregroundColor(Color.ui.text)
                     .padding(5)
                 }
+                .transition(.slide)
             }
+            .onAppear(perform: {
+                showBlock = true
+            })
+            .onDisappear(perform: {
+                showBlock = false
+            })
+            .animation(.easeInOut, value: showBlock)
             .padding(5)
             .background(Color.ui.orange)
             .cornerRadius(10)
+            
         }
+        
         .sheet(isPresented: $showInfo){
             if let lat = Double(cafe.latitude), let long = Double(cafe.longitude){
                 let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)

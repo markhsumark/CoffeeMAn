@@ -41,7 +41,12 @@ struct CafeView: View {
                         .navigationBarItems(trailing: Button{
                             blockOrMapView = false
                         }label:{
-                            Label("在列表中顯示", systemImage: "doc.text.magnifyingglass")
+                            VStack{
+                                Label("在列表中顯示", systemImage: "doc.text.magnifyingglass")
+                                Text("列表")
+                                    .font(.system(size: 15))
+                            }
+                           
                         })
                 }else{
                     CafeBlockView(filterItem: $filterItem, blockOrMapView: $blockOrMapView)
@@ -49,7 +54,11 @@ struct CafeView: View {
                         .navigationBarItems(trailing: Button{
                             blockOrMapView = true
                         }label:{
-                            Label("在地圖中顯示", systemImage: "map")
+                            VStack{
+                                Label("在地圖中顯示", systemImage: "map")
+                                Text("列表")
+                                    .font(.system(size: 15))
+                            }
                         })
                 }
                 

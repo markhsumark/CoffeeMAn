@@ -14,11 +14,12 @@ class NewsViewModel: ObservableObject{
     let basicUrl = "https://newsapi.org/v2/everything?"
     let searchKey = "q="
     let SortByTimeUrl = "&sortBy=publishedAt"
-    let key = "bf1b783b3c8541a88daf6e696755410b"
+    let key : APIManager = APIManager.newsApi
     @Published var articles = [Article]()
-    
+    @Published var showError : Bool = false
+
     func fetchNews(keyWords : String){
-        let urlKey = "&apiKey=" + key
+        let urlKey = "&apiKey=" + key.apiKey
         let urlString = basicUrl + searchKey + keyWords + SortByTimeUrl + urlKey
             
         if let urlStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string : urlStr){
@@ -38,11 +39,15 @@ class NewsViewModel: ObservableObject{
                         let searchResponse = try decoder.decode(NewsItem.self, from: data)
                         DispatchQueue.main.async {
                             self.articles = searchResponse.articles
+
                         }
                     }
                     catch{
+                        self.showError = true
                         print(error)
                     }
+                }else{
+                    self.showError = true
                 }
             }.resume()
         }

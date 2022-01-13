@@ -53,8 +53,7 @@ struct CafeMapView: View{
                     "彰化": "Changhua", "南投": "Nantou", "雲林": "Yunlin",
                     "嘉義": "Chiayi", "台南": "Tainan", "高雄": "Kaohsiung",
                     "屏東": "Pingtung", "宜蘭": "Yilan", "花蓮": "Hualien",
-                    "台東": "Taitung", "連江": "Lienchiang ", "澎湖": "Penghu",
-                    "全部" : ""]
+                    "台東": "Taitung", "連江": "Lienchiang ", "澎湖": "Penghu"]
     
     var pinlist : [pin]{
         var pins : [pin] = []
@@ -116,6 +115,8 @@ struct CafeMapView: View{
             }
         
             ZStack(alignment: .bottom){
+                let center = $mapViewModel.region.center
+                let leftTop = CLLocationCoordinate2D()
                 Map(coordinateRegion: $mapViewModel.region, showsUserLocation: true, annotationItems: pinlist){
                     pin in
                     MapAnnotation(coordinate: pin.place.location){
@@ -138,6 +139,11 @@ struct CafeMapView: View{
             }
         }
         .searchable(text: $searchText)
+        .alert("沒有網路連線", isPresented: $Cafe.showError){
+            Button("OK"){
+                Cafe.showError = false
+            }
+        }
     }
     func doReload(){
         Cafe.fetchCafe(term: cityTags[selectedCity]!)
@@ -145,23 +151,3 @@ struct CafeMapView: View{
     
 }
 
-struct PinView: View{
-    var cafe : CafeItem
-    var place : IdentifiablePlace
-    
-    @State private var showInfo = false
-    
-    var body: some View{
-        Button{
-            showInfo = true
-        }label:{
-            MapPinView(place: place, name: cafe.name)
-        }
-        .sheet(isPresented: $showInfo){
-            if let lat = Double(cafe.latitude), let long = Double(cafe.longitude){
-                let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
-                CafeInfo(place: actionPlace, cafeData : cafe, showInfo: $showInfo)
-            }
-        }
-    }
-}

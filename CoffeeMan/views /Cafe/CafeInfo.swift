@@ -39,7 +39,7 @@ struct CafeInfo: View {
                             .foregroundColor(Color.ui.titletext)
                             .font(.title3)
                         Text("地址：\(cafeData.address)")
-                        Text("營業時間\(cafeData.open_time)")
+                        Text("營業時間: \(cafeData.open_time)")
                         ScrollView(.horizontal){
                             HStack{
                                 Label("\(cafeData.tasty, specifier: "%.1f")", systemImage: "star")

@@ -7,6 +7,27 @@
 
 import Foundation
 import SwiftUI
+
+struct PinView: View{
+    var cafe : CafeItem
+    var place : IdentifiablePlace
+    
+    @State private var showInfo = false
+    
+    var body: some View{
+        Button{
+            showInfo = true
+        }label:{
+            MapPinView(place: place, name: cafe.name)
+        }
+        .sheet(isPresented: $showInfo){
+            if let lat = Double(cafe.latitude), let long = Double(cafe.longitude){
+                let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
+                CafeInfo(place: actionPlace, cafeData : cafe, showInfo: $showInfo)
+            }
+        }
+    }
+}
 struct MapPinView : View{
     var place : IdentifiablePlace
     var name : String
@@ -24,7 +45,8 @@ struct MapPinView : View{
             Text(name)
                 .foregroundColor(.red)
                 .cornerRadius(8)
-                .frame(maxWidth: 30)
+                .font(.system(size: 10))
+                .frame(maxWidth: 140)
         }
     }
     

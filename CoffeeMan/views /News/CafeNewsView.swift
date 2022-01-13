@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CafeNewsView: View {
     @State private var showInfo = false
-    @State private var selectArticle : Article = Article(source: Source(id: 1, name: "xxx"), author: "", title: "", description: "", url: "", urlToImage: "", publishedAt: "", content: "")
+    @State private var selectArticle : Article = Article(source: Source(id: 1, name: "xxx"), author: "", title: "", description: "", url: "", urlToImage: "", publishedAt: Date(), content: "")
     @ObservedObject var news = NewsViewModel()
     
     var body: some View {
@@ -48,6 +48,11 @@ struct CafeNewsView: View {
         .refreshable {
             news.fetchNews(keyWords: "台灣咖啡廳")
         }
+        .alert("沒有網路連線", isPresented: $news.showError) {
+            Button("OK"){
+                news.showError = false
+            }
+        }
     }
 }
 
@@ -73,6 +78,7 @@ struct ArticleBlock : View{
 struct ArticleInfo : View{
     @Binding var article : Article
     @Binding var showInfo : Bool
+    
     var body : some View{
         NavigationView {
             VStack(alignment: .leading){
@@ -82,7 +88,10 @@ struct ArticleInfo : View{
                     .font(.title3)
                     .bold()
                     .padding()
-                Text("內容:\(article.description)")
+                Text("\(article.publishedAt)")
+                    .foregroundColor(.gray)
+
+                Text("內容: \(article.description)")
                 Link(destination: URL(string: article.url)!){
                     Rectangle()
                         .frame(width: 150, height: 40)
