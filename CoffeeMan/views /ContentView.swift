@@ -7,9 +7,11 @@
 
 
 import SwiftUI
-
+import WidgetKit
 
 struct ContentView: View {
+//    @AppStorage("FavoriteListData", store: UserDefaults(suiteName: "com.mark.CoffeeMan.CoffeeManWidget")) var FavoriteListData = recordedCafe(name: "", address: "")
+    @AppStorage("FavoriteListData", store: UserDefaults(suiteName: "com.mark.CoffeeMan.CoffeeManWidget")) var FavoriteListString = ""
     var body: some View {
         TabView{
             CafeNewsView()

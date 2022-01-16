@@ -23,3 +23,7 @@ struct CafeItem: Codable{
     let latitude : String
     let longitude : String
 }
+struct recordedCafe{
+    let name: String
+    let address: String
+}

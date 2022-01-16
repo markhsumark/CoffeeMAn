@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct FavoriteListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Cafe.savedDate, ascending: true)], animation: .default) private var cafes : FetchedResults<Cafe>
+    
+    @AppStorage("FavoriteListData", store: UserDefaults(suiteName: "com.mark.CoffeeMan.CoffeeManWidget")) var FavoriteListString = ""
     
     var body: some View {
         NavigationView{
@@ -30,11 +33,23 @@ struct FavoriteListView: View {
                     }
                     .onDelete(perform: deleteItem)
                 }
+                
             }
             .listStyle(.plain)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        WidgetCenter.shared.reloadAllTimelines()
+                    } label: {
+                        HStack{
+                        Label("Widget", systemImage: "arrow.triangle.2.circlepath")
+                            Text("refrash widget")
+                        }
+
+                    }
                 }
             }
             .navigationTitle("喜好列表")
