@@ -4,10 +4,12 @@
 ## 要求 :Google Place Api Key
 1. 新增一個檔案 Keys.swift 在CoffeeMan目錄下
 Keys.swift:內容
-> import Foundation
-> struct Keys {
->     static let GooglePlaceAPIKey: String? = "你的Google Place API Key"
-> }
+> 
+    import Foundation
+    struct Keys {
+        static let GooglePlaceAPIKey: String? = "你的GooglePlace API Key"
+        
+    }
 
 
 
