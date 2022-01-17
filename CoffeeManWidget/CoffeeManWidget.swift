@@ -7,27 +7,28 @@
 
 import WidgetKit
 import SwiftUI
+import Foundation
 
 struct coffeeType{
-    static let imgName : [String] = [  "americano",
-                                       "cappuccino",
-                                       "caramelMacciato",
-                                       "conPanna",
-                                       "espresso",
-                                       "irish",
-                                       "latte",
+    static let imgName : [String] = [  "Americano",
+                                       "Cappuccino",
                                        "Mocha",
-                                       "viennese"
+                                       "conPanna",
+                                       "Espresso",
+                                       "Irish",
+                                       "Latte",
+                                       "Macchiato",
+                                       "Guayoyo"
     ]
 }
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), imgName: "latte")
+        SimpleEntry(date: Date(), imgName: "Latte", coffee: coffee(title: "Latte", description: "description", ingredients: ["ingredients1", "ingredients2"]))
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), imgName: "latte")
+        let entry = SimpleEntry(date: Date(), imgName: "Latte", coffee: coffee(title: "Latte", description: "description", ingredients: ["ingredients1", "ingredients2"]))
         completion(entry)
     }
     
@@ -36,20 +37,45 @@ struct Provider: TimelineProvider {
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for offset in 0 ..< 9 {
-            let entryDate = Calendar.current.date(byAdding: .minute, value: 10 * offset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, imgName: coffeeType.imgName.randomElement()!)
-            entries.append(entry)
-        }
         
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
+        var coffees : [coffee]?
+        URLSession.shared.dataTask(with: URL(string: "https://api.sampleapis.com/coffee/hot")!){data, response, error in
+            if let data = data{
+                do{
+                    print(data)
+                    let decorder = JSONDecoder()
+                    decorder.dateDecodingStrategy = .iso8601
+                    let result = try decorder.decode([coffee].self, from: data)
+                    coffees = result
+                }catch{
+                    print(error)
+                }
+            }
+            
+            //            let entryDate = Calendar.current.date(byAdding: .minute, value: 10 * offset, to: currentDate)!
+            var coffee = coffees?.randomElement()!
+            while coffee?.title == ""{
+                coffee = coffees?.randomElement()!
+            }
+            let entry = SimpleEntry(date: currentDate, imgName: coffee!.title, coffee: coffee!)
+            entries.append(entry)
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+        }.resume()
+        
+        
     }
 }
-
+struct coffee: Codable{
+    let title : String
+    let description : String
+    let ingredients : [String]
+}
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let imgName: String
+    let coffee: coffee
 }
 
 struct CoffeeManWidgetEntryView : View {
@@ -66,7 +92,6 @@ struct CoffeeManWidgetEntryView : View {
             smallWidget(entry: entry)
         case .systemMedium:
             mediumWidget(entry: entry)
-
         default:
             Text("")
         }
@@ -92,8 +117,8 @@ struct CoffeeManWidget: Widget {
 
 struct CoffeeManWidget_Previews: PreviewProvider {
     static var previews: some View {
-        CoffeeManWidgetEntryView(entry: SimpleEntry(date: Date(), imgName: coffeeType.imgName[0]))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        CoffeeManWidgetEntryView(entry: SimpleEntry(date: Date(), imgName: coffeeType.imgName[0], coffee: coffee(title: "coffee", description: "description", ingredients: ["ingredients"])))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
 
@@ -109,10 +134,10 @@ struct smallWidget : View{
                     VStack{
                         Text("Coffee Man")
                             .foregroundColor(Color.ui.orange)
-                            .font(.system(.body,design: .monospaced))
+                            .font(.system(size: 10,design: .monospaced))
                             .padding(.leading, 10)
                         Text("咖啡人")
-                            .font(.system(size:10))
+                            .font(.system(size:7))
                         
                     }
                 })
@@ -125,12 +150,24 @@ struct mediumWidget:View{
         HStack{
             smallWidget(entry: entry)
             Divider()
-            Text("woooooooooord")
+            VStack(alignment: .leading, spacing: 2){
+                Text("\(entry.coffee.title)")
+                    .font(.system(size: 20))
+                    .foregroundColor(Color.ui.orange)
+                    .bold()
+                Divider()
+                Text("ingredients:")
+                    .font(.system(size: 15))
+                ForEach(entry.coffee.ingredients.indices){i in
+                    Text("\(entry.coffee.ingredients[i])")
+                        .font(.system(size: 10))
+                }
+            }
         }
     }
 }
-    
-    
+
+
 extension Color {
     static let ui = Color.UI()
     

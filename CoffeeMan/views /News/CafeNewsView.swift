@@ -67,6 +67,8 @@ struct ArticleBlock : View{
                 .bold()
             Text("作者:\(article.author)")
                 .foregroundColor(Color.ui.newstext)
+            Text("\(article.publishedAt)")
+                .foregroundColor(Color.ui.newstext)
         }
         .frame(maxWidth: .infinity-50)
         .padding()
@@ -126,12 +128,13 @@ struct ArticleImage: View{
                         .resizable()
                         .scaledToFit()
                         .frame(maxHeight: .infinity/2)
-                }else if phase.error != nil{
-                    Text("No Image")
-                        .opacity(0.5)
                 }else{
                     ProgressView()
                 }
+//                }else{
+//                    Text("No Image")
+//                        .opacity(0.5)
+//                }
             }
             .scaledToFit()
             .cornerRadius(7)

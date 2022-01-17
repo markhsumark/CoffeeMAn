@@ -25,6 +25,7 @@ struct FavoriteListView: View {
                     }
                     .onDelete(perform: deleteItem)
                 }
+                Divider()
                 Section(header: Text("去過的咖啡廳")){
                     ForEach(cafes){cafe in
                         if cafe.beenTo{
@@ -117,25 +118,34 @@ struct likeListItem: View{
                     modifyValue(cafe, value : Float(v))
                 }
             }
-            NavigationLink{
-                if let lat = cafe.latitude, let long = cafe.longitude{
-                    if let lat = Double(lat), let long = Double(long){
-                        let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
-                        MapView(place: actionPlace, cafeName: cafe.name!)
-                    }
+            
+            HStack{
+                if let address = cafe.address{
+                    Text("\(address)")
+                        .foregroundColor(Color.ui.newstext)
+                        .frame(maxWidth: 240.0)
                 }
-            }label:{
-                Rectangle()
-                    .frame(width: 120, height: 40)
-                    .foregroundColor(Color.ui.map)
-                    .overlay{
-                        Label("Map", systemImage: "map")
-                            .foregroundColor(.white)
+                Spacer()
+                NavigationLink{
+                    if let lat = cafe.latitude, let long = cafe.longitude{
+                        if let lat = Double(lat), let long = Double(long){
+                            let actionPlace = IdentifiablePlace(id: UUID(), lat: lat, long: long)
+                            MapView(place: actionPlace, cafeName: cafe.name!)
+                        }
                     }
-                    .cornerRadius(5)
-                    .padding(5)
+                }label:{
+                    Rectangle()
+                        .frame(width: 120, height: 40)
+                        .foregroundColor(Color.ui.map)
+                        .overlay{
+                            Label("Map", systemImage: "map")
+                                .foregroundColor(.white)
+                        }
+                        .cornerRadius(5)
+                        .padding(5)
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
 
         }
         .onAppear(perform: {
