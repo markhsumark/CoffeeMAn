@@ -61,31 +61,15 @@ struct CoffeeManWidgetEntryView : View {
         return formatter
     }
     var body: some View {
-//        switch widgetFamily {
-//        case .systemSmall:
-//
-//        case .systemMedium:
-//
-//
-//        default:
-            ZStack{
-                Image(entry.imgName)
-                    .resizable()
-                    .scaledToFit()
-                    .overlay(alignment: .topLeading, content: {
-                        VStack{
-                            Text("Coffee Man")
-                                .foregroundColor(Color.ui.orange)
-                                .font(.system(.body,design: .monospaced))
-                                .padding(.leading, 10)
-                            Text("咖啡人")
-                                .font(.system(size:10))
-                            
-                        }
-                    })
-            }
-            
-//        }
+        switch widgetFamily {
+        case .systemSmall:
+            smallWidget(entry: entry)
+        case .systemMedium:
+            mediumWidget(entry: entry)
+
+        default:
+            Text("")
+        }
         
         
         
@@ -113,6 +97,40 @@ struct CoffeeManWidget_Previews: PreviewProvider {
     }
 }
 
+
+struct smallWidget : View{
+    var entry : Provider.Entry
+    var body: some View{
+        ZStack{
+            Image(entry.imgName)
+                .resizable()
+                .scaledToFit()
+                .overlay(alignment: .topLeading, content: {
+                    VStack{
+                        Text("Coffee Man")
+                            .foregroundColor(Color.ui.orange)
+                            .font(.system(.body,design: .monospaced))
+                            .padding(.leading, 10)
+                        Text("咖啡人")
+                            .font(.system(size:10))
+                        
+                    }
+                })
+        }
+    }
+}
+struct mediumWidget:View{
+    var entry : Provider.Entry
+    var body: some View{
+        HStack{
+            smallWidget(entry: entry)
+            Divider()
+            Text("woooooooooord")
+        }
+    }
+}
+    
+    
 extension Color {
     static let ui = Color.UI()
     
