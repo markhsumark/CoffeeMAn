@@ -95,9 +95,7 @@ struct CoffeeManWidgetEntryView : View {
         default:
             Text("")
         }
-        
-        
-        
+
     }
 }
 
