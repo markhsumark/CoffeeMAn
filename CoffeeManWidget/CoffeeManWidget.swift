@@ -127,20 +127,24 @@ struct smallWidget : View{
     var entry : Provider.Entry
     var body: some View{
         ZStack{
-            Image(entry.imgName)
-                .resizable()
-                .scaledToFit()
-                .overlay(alignment: .topLeading, content: {
-                    VStack{
-                        Text("Coffee Man")
-                            .foregroundColor(Color.ui.orange)
-                            .font(.system(size: 10,design: .monospaced))
-                            .padding(.leading, 10)
-                        Text("咖啡人")
-                            .font(.system(size:7))
-                        
-                    }
-                })
+            if #available(iOSApplicationExtension 15.0, *) {
+                Image(entry.imgName)
+                    .resizable()
+                    .scaledToFit()
+                    .overlay(alignment: .topLeading, content: {
+                        VStack{
+                            Text("Coffee Man")
+                                .foregroundColor(Color.ui.orange)
+                                .font(.system(size: 10,design: .monospaced))
+                                .padding(.leading, 10)
+                            Text("咖啡人")
+                                .font(.system(size:7))
+                            
+                        }
+                    })
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }

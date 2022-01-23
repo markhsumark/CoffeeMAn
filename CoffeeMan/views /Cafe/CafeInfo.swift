@@ -22,6 +22,7 @@ struct CafeInfo: View {
     @Binding var showInfo : Bool
     
     @State private var isShowSheet : Bool = false
+    @State private var isShared : Bool = false
     
     var cafeUrlStr : String{
         if cafeData.url != ""{
@@ -115,12 +116,21 @@ struct CafeInfo: View {
             .sheet(isPresented: $isShowSheet){
                 SafariView(url: URL(string: cafeUrlStr)!)
             }
+            .sheet(isPresented: $isShared){
+                SharedView(title: cafeData.name
+                           , url: cafeUrlStr)
+            }
             .navigationBarTitle(Text("咖啡廳資訊"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 print("Dismissing sheet view...")
                 self.showInfo = false
             }) {
                 Text("Done").bold()
+            })
+            .navigationBarItems(leading: Button{
+                self.isShared = true
+            } label:{
+                Image(systemName: "square.and.arrow.up")
             })
             
         }

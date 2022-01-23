@@ -7,9 +7,8 @@
 
 import Foundation
 
-//bf1b783b3c8541a88daf6e696755410b
-//範例API: https://newsapi.org/v2/everything?q=網美咖啡廳&sortBy=publishedAt&apiKey=bf1b783b3c8541a88daf6e696755410b
 
+//範例API: https://newsapi.org/v2/everything?q=網美咖啡廳&sortBy=publishedAt&apiKey=YOUR_API_KEY
 class NewsViewModel: ObservableObject{
     let basicUrl = "https://newsapi.org/v2/everything?"
     let searchKey = "q="

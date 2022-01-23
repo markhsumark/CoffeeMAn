@@ -102,8 +102,6 @@ struct CafeBlockView: View {
                     ForEach(filtedCafes, id: \.id){cafe in
                         CafeBlock(cafe: cafe)
                             .frame(height: 200)
-                            
-
                     }
                 }
                 .padding()

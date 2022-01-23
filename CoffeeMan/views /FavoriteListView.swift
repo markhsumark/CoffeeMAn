@@ -8,12 +8,24 @@
 import SwiftUI
 import WidgetKit
 
+
 struct FavoriteListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Cafe.savedDate, ascending: true)], animation: .default) private var cafes : FetchedResults<Cafe>
-    
-    @AppStorage("FavoriteListData", store: UserDefaults(suiteName: "com.mark.CoffeeMan.CoffeeManWidget")) var FavoriteListString = ""
-    
+    @State var offset = CGSize.zero
+    @State var scale :CGFloat = 1
+    @State var isLongPress = false
+    var dragGesture: some Gesture{
+        DragGesture()
+            .onChanged({value in
+                if isLongPress{
+                    offset = value.translation
+                }
+            })
+            .onEnded ({ value in
+                isLongPress = false
+            })
+    }
     var body: some View {
         NavigationView{
             List{
@@ -25,7 +37,6 @@ struct FavoriteListView: View {
                     }
                     .onDelete(perform: deleteItem)
                 }
-                Divider()
                 Section(header: Text("去過的咖啡廳")){
                     ForEach(cafes){cafe in
                         if cafe.beenTo{
@@ -48,6 +59,7 @@ struct FavoriteListView: View {
                         HStack{
                         Label("Widget", systemImage: "arrow.triangle.2.circlepath")
                             Text("refrash widget")
+                                .font(.system(size: 10))
                         }
 
                     }
@@ -56,6 +68,7 @@ struct FavoriteListView: View {
             .navigationTitle("喜好列表")
             
         }
+        
     }
     private func deleteItem(offsets: IndexSet){
         withAnimation {
@@ -69,6 +82,7 @@ struct FavoriteListView: View {
             }
         }
     }
+    
 
 }
 
@@ -77,14 +91,7 @@ struct likeListItem: View{
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var cafe : Cafe
     @State private var selectedValue = 0.0
-    @State var offset = CGSize.zero
-    
-    var dragGesture: some Gesture{
-        DragGesture()
-            .onChanged({value in
-                offset = value.translation
-            })
-    }
+
     var body : some View{
         VStack(alignment: .leading){
             if let name = cafe.name{
@@ -175,13 +182,7 @@ struct likeListItem: View{
                 .buttonStyle(.plain)
             }
         }
-        .offset(offset)
-//        .gesture(
-//            DragGesture()
-//                .onChanged({value in
-//                    offset = value.translation
-//                })
-//        )
+
     }
     private func modifyBeenTo(_ cafe: Cafe){
         withAnimation {

@@ -56,7 +56,7 @@ struct CafeView: View {
                         }label:{
                             VStack{
                                 Label("在地圖中顯示", systemImage: "map")
-                                Text("列表")
+                                Text("地圖")
                                     .font(.system(size: 15))
                             }
                         })

@@ -13,45 +13,48 @@ struct CafeNewsView: View {
     @ObservedObject var news = NewsViewModel()
     
     var body: some View {
-        VStack{
-            List{
-                ForEach(news.articles, id: \.url) { article in
-                    Section{
-                        Button{
-                            showInfo = true
-                            selectArticle = article
-                        }label:{
-                            ArticleBlock(article: article)
+        NavigationView{
+            VStack{
+                List{
+                    ForEach(news.articles, id: \.url) { article in
+                        Section{
+                            Button{
+                                showInfo = true
+                                selectArticle = article
+                            }label:{
+                                ArticleBlock(article: article)
                                 
+                            }
+                        }header:{
+                            Text(article.source.name)
                         }
-                    }header:{
-                        Text(article.source.name)
+                        .sheet(isPresented: $showInfo){
+                            ArticleInfo(article: $selectArticle, showInfo : $showInfo)
+                        }
                     }
-                    .sheet(isPresented: $showInfo){
-                        ArticleInfo(article: $selectArticle, showInfo : $showInfo)
-                    }
+                    
                 }
-                
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
-        }
-        .onAppear{
-            if news.articles.isEmpty{
+            .onAppear{
+                if news.articles.isEmpty{
+                    news.fetchNews(keyWords: "台灣咖啡廳")
+                }
+            }
+            .overlay{
+                if news.articles.isEmpty{
+                    ProgressView()
+                }
+            }
+            .refreshable {
                 news.fetchNews(keyWords: "台灣咖啡廳")
             }
-        }
-        .overlay{
-            if news.articles.isEmpty{
-                ProgressView()
+            .alert("沒有網路連線", isPresented: $news.showError) {
+                Button("OK"){
+                    news.showError = false
+                }
             }
-        }
-        .refreshable {
-            news.fetchNews(keyWords: "台灣咖啡廳")
-        }
-        .alert("沒有網路連線", isPresented: $news.showError) {
-            Button("OK"){
-                news.showError = false
-            }
+            .navigationTitle("新聞")
         }
     }
 }
@@ -92,7 +95,7 @@ struct ArticleInfo : View{
                     .padding()
                 Text("\(article.publishedAt)")
                     .foregroundColor(.gray)
-
+                
                 Text("內容: \(article.description)")
                 Link(destination: URL(string: article.url)!){
                     Rectangle()
@@ -119,7 +122,14 @@ struct ArticleInfo : View{
     }
 }
 struct ArticleImage: View{
+    var magnificationGesture: some Gesture {
+        MagnificationGesture()
+            .onChanged { value in
+                scale = value.magnitude
+            }
+    }
     var imageUrl : String?
+    @State var scale : CGFloat = 1
     var body: some View{
         if let imageUrl = imageUrl{
             AsyncImage(url: URL(string: imageUrl)){phase in
@@ -131,13 +141,11 @@ struct ArticleImage: View{
                 }else{
                     ProgressView()
                 }
-//                }else{
-//                    Text("No Image")
-//                        .opacity(0.5)
-//                }
             }
             .scaledToFit()
             .cornerRadius(7)
+            .scaleEffect(scale)
+            .gesture(magnificationGesture)
         }
         else{
             Text("No Image")

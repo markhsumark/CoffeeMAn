@@ -30,6 +30,7 @@
 		1C69D8F92778AD2100743BAB /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8F82778AD2100743BAB /* NewsViewModel.swift */; };
 		1C69D8FB2778B03D00743BAB /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8FA2778B03D00743BAB /* NewsItem.swift */; };
 		1C7DEA072772DD4100CAEC81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7DEA062772DD4100CAEC81 /* MapView.swift */; };
+		1C91D8D6279D97630085CEB7 /* SharedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C91D8D5279D97630085CEB7 /* SharedView.swift */; };
 		1CBD22D72781DE4900255D61 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBD22D62781DE4900255D61 /* Keys.swift */; };
 		1CFBF14E278017CC00C80A35 /* CafeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF14D278017CC00C80A35 /* CafeMapView.swift */; };
 		1CFBF1512780265600C80A35 /* CafeData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF14F2780265600C80A35 /* CafeData.xcdatamodeld */; };
@@ -86,6 +87,7 @@
 		1C69D8F82778AD2100743BAB /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		1C69D8FA2778B03D00743BAB /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 		1C7DEA062772DD4100CAEC81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		1C91D8D5279D97630085CEB7 /* SharedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedView.swift; sourceTree = "<group>"; };
 		1CBD22D62781DE4900255D61 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		1CCD5A092781969300021C14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1CFBF14D278017CC00C80A35 /* CafeMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeMapView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				1C55FACC275F6B1200090274 /* CoffeeManApp.swift */,
 				1C69D8F027786D9D00743BAB /* SafariView.swift */,
 				1C69D8F42778809800743BAB /* FavoriteListView.swift */,
+				1C91D8D5279D97630085CEB7 /* SharedView.swift */,
 			);
 			path = "views ";
 			sourceTree = "<group>";
@@ -303,6 +306,8 @@
 				1C5C56B527941E6400D43F4F /* PBXTargetDependency */,
 			);
 			name = CoffeeMan;
+			packageProductDependencies = (
+			);
 			productName = CoffeeMan;
 			productReference = 1C55FAC9275F6B1200090274 /* CoffeeMan.app */;
 			productType = "com.apple.product-type.application";
@@ -351,6 +356,8 @@
 				Base,
 			);
 			mainGroup = 1C55FAC0275F6B1100090274;
+			packageReferences = (
+			);
 			productRefGroup = 1C55FACA275F6B1200090274 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -390,6 +397,7 @@
 				1CBD22D72781DE4900255D61 /* Keys.swift in Sources */,
 				1C239EE02776FCAB00B5C24B /* MapModel.swift in Sources */,
 				1C55FAE2275F818500090274 /* CafeViewModel.swift in Sources */,
+				1C91D8D6279D97630085CEB7 /* SharedView.swift in Sources */,
 				1C239EE22777091D00B5C24B /* MapPinView.swift in Sources */,
 				1C55FADD275F7B8B00090274 /* CafeView.swift in Sources */,
 				1C239EDE2776467500B5C24B /* MapViewModel.swift in Sources */,
