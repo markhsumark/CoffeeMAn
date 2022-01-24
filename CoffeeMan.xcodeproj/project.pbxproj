@@ -30,6 +30,7 @@
 		1C69D8F92778AD2100743BAB /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8F82778AD2100743BAB /* NewsViewModel.swift */; };
 		1C69D8FB2778B03D00743BAB /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69D8FA2778B03D00743BAB /* NewsItem.swift */; };
 		1C7DEA072772DD4100CAEC81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7DEA062772DD4100CAEC81 /* MapView.swift */; };
+		1C8A3E51279E84C10082B681 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 1C8A3E50279E84C10082B681 /* BottomSheet */; };
 		1C91D8D6279D97630085CEB7 /* SharedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C91D8D5279D97630085CEB7 /* SharedView.swift */; };
 		1CBD22D72781DE4900255D61 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBD22D62781DE4900255D61 /* Keys.swift */; };
 		1CFBF14E278017CC00C80A35 /* CafeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFBF14D278017CC00C80A35 /* CafeMapView.swift */; };
@@ -100,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C8A3E51279E84C10082B681 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +309,7 @@
 			);
 			name = CoffeeMan;
 			packageProductDependencies = (
+				1C8A3E50279E84C10082B681 /* BottomSheet */,
 			);
 			productName = CoffeeMan;
 			productReference = 1C55FAC9275F6B1200090274 /* CoffeeMan.app */;
@@ -357,6 +360,7 @@
 			);
 			mainGroup = 1C55FAC0275F6B1100090274;
 			packageReferences = (
+				1C8A3E4F279E84C10082B681 /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = 1C55FACA275F6B1200090274 /* Products */;
 			projectDirPath = "";
@@ -565,10 +569,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoffeeMan/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "咖啡人";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show is on the map ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -581,7 +587,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -598,10 +604,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoffeeMan/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "咖啡人";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show is on the map ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -614,7 +622,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -703,6 +711,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1C8A3E4F279E84C10082B681 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamfootdev/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1C8A3E50279E84C10082B681 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C8A3E4F279E84C10082B681 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1CFBF14F2780265600C80A35 /* CafeData.xcdatamodeld */ = {

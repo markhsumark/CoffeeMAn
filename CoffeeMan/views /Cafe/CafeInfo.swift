@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import BottomSheet
 
 struct CafeInfo: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -116,7 +117,7 @@ struct CafeInfo: View {
             .sheet(isPresented: $isShowSheet){
                 SafariView(url: URL(string: cafeUrlStr)!)
             }
-            .sheet(isPresented: $isShared){
+            .bottomSheet(isPresented: $isShared){
                 SharedView(title: cafeData.name
                            , url: cafeUrlStr)
             }

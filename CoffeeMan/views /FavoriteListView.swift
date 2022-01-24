@@ -15,17 +15,6 @@ struct FavoriteListView: View {
     @State var offset = CGSize.zero
     @State var scale :CGFloat = 1
     @State var isLongPress = false
-    var dragGesture: some Gesture{
-        DragGesture()
-            .onChanged({value in
-                if isLongPress{
-                    offset = value.translation
-                }
-            })
-            .onEnded ({ value in
-                isLongPress = false
-            })
-    }
     var body: some View {
         NavigationView{
             List{
@@ -91,7 +80,7 @@ struct likeListItem: View{
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var cafe : Cafe
     @State private var selectedValue = 0.0
-
+    @State private var isShared = false
     var body : some View{
         VStack(alignment: .leading){
             if let name = cafe.name{
@@ -124,6 +113,16 @@ struct likeListItem: View{
                 .onChange(of: selectedValue) { v in
                     modifyValue(cafe, value : Float(v))
                 }
+                Divider()
+                Button{
+                    isShared = true
+                }label:{
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .foregroundColor(Color.gray)
+                .padding(5)
+                .font(.system(size: 20))
+                .buttonStyle(.plain)
             }
             
             HStack{
@@ -150,8 +149,8 @@ struct likeListItem: View{
                         }
                         .cornerRadius(5)
                         .padding(5)
+                        .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
 
         }
@@ -180,6 +179,12 @@ struct likeListItem: View{
                         .font(.system(size: 30))
                 }
                 .buttonStyle(.plain)
+            }
+        }
+        .bottomSheet(isPresented: $isShared) {
+            if let url = cafe.url, let name = cafe.name{
+                SharedView(title: name, url: url)
+
             }
         }
 
